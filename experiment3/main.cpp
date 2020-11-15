@@ -49,19 +49,20 @@ int main()
 		case 6:
 			DFS_Recursion_List(G_List);
 			break;
-
 		case 7:
+			DFS_Non_Recursion_Matrix(G_Matrix);
 			break;
-
 		case 8:
+			DFS_Non_Recursion_List(G_List);
 			break;
-
-
 		case 9:
+			BFS_Traverse_Matrix(G_Matrix);
+			cout << "请输入您的选项:" << endl;
 			break;
-		case10:
+		case 10:
+			BFS_Traverse_List(G_List);
+			cout << "请输入您的选项:" << endl;
 			break;
-
 		case 11:
 			G_Matrix = Input_from_file_Matrix(G_Matrix);
 			break;
@@ -74,12 +75,5 @@ int main()
 		}
 		cin >> n;
 	}
-
-
-
-
-
-
-
 	return 0;
 }

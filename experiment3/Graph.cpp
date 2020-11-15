@@ -234,6 +234,7 @@ void DFS_Recursion_List(AdjGraph* G)
 	for (int i = 0; i < G->n; i++)
 		if (!visited[i])
 			DFS_List(G, i, visited, dfn, count);
+	cout << endl;
 	delete[]visited;
 	delete[]dfn;
 }
@@ -251,6 +252,188 @@ void DFS_List(AdjGraph* G, int i, bool visited[], int dfn[], int count)
 		p = p->next;
 	}
 }
+
+//深度优先搜索
+//邻接矩阵
+//非递归
+void DFS_Non_Recursion_Matrix(Graph_Adjacency_Matrix* G)
+{
+	bool* visited = new bool[G->n];
+	for (int i = 0; i < G->n; i++)
+		visited[i] = false;
+	stack* s = Init_stack();
+	int k;
+	int flag = 0;
+	for (int i = 0; i < G->n; i++)
+	{
+		k = i;
+		if (!visited[i])
+		{
+			cout << G->verlist[i];
+			s = Push_stack(i, s);
+			visited[i] = true;
+			while (!Is_empty(s))
+			{
+				flag = 0;
+				for (int j = 0; j < G->n; j++)
+				{
+					if (G->edge[i][j] ==1 && visited[j] == false && j != i)
+					{	
+						flag = 1;
+						visited[j] = true;
+						cout << G->verlist[j];
+						Push_stack(j, s);
+						i = j;
+						continue;
+					}
+				}
+				if (!flag)
+					i = Pop_stack(s);
+				flag = 0;
+			}
+		}
+		i = k;
+	}
+	cout << endl;
+	delete[]visited;
+}
+//邻接表
+void DFS_Non_Recursion_List(AdjGraph* G)
+{
+	bool* visited = new bool[G->n];
+	for (int i = 0; i < G->n; i++)
+		visited[i] = false;
+	stack* s = Init_stack();
+	int k;
+	int flag = 0;
+	EdgeNode node;
+	for (int i = 0; i < G->n; i++)
+	{
+		k = i;
+		node = G->vexlist[i].firstedge;
+		if (!visited[i])
+		{
+			cout << G->vexlist[i].vertex;
+			s = Push_stack(i, s);
+			visited[i] = true;
+			while (!Is_empty(s) && !visited[node->adjvex])
+			{
+				while (node!=nullptr)
+				{
+					if (visited[node->adjvex] == false)
+					{
+						flag = 1;
+					}
+					else
+					{
+						node = node->next;
+						flag = 1;
+					}
+					break;
+				}
+				int j = node->adjvex;
+				if (flag == 1)
+				{
+					cout << G->vexlist[j].vertex;
+					s = Push_stack(j, s);
+					visited[j] = true;
+					node = G->vexlist[j].firstedge;
+					flag = 0;
+				}
+				else if (flag == 0)
+				{
+					j = Pop_stack(s);
+					node = G->vexlist[j].firstedge;
+				}
+			}
+		}
+		i = k;
+	}
+	cout << endl;
+	delete[]visited;
+}
+
+
+
+//广度搜索
+//邻接矩阵
+void BFS_Traverse_Matrix(Graph_Adjacency_Matrix* G)
+{
+	bool* visited = new bool[G->n];
+	int* dfn = new int[G->n];
+	for (int i = 0; i < G->n; i++)
+		visited[i] = false;
+	for (int i = 0; i < G->n; i++)
+		if (!visited[i])
+			BFS_Matrix(G, i, visited, dfn);
+	delete[]visited;
+	delete[]dfn;
+	cout << endl;
+		
+}
+void BFS_Matrix(Graph_Adjacency_Matrix* G, int i, bool visited[], int dfn[])
+{
+	int j;
+	queue Q;
+	Q = Init_Queue();
+	cout << G->verlist[i];
+	visited[i] = true;
+	Q = EnQueue(i, Q);
+	while (!Empty(Q))
+	{
+		i = Front(Q); 
+		Q = DeQueue(Q);
+		for (j = 0; j < G->n; j++) 
+		{ 
+			if (G->edge[i][j] == 1 && !visited[j]) 
+			{ 
+				cout << G->verlist[j];
+				visited[j] = true; 
+				EnQueue(j, Q); 
+			}
+		} 
+	}
+}
+//邻接表
+void BFS_Traverse_List(AdjGraph* G)
+{
+	bool* visited = new bool[G->n];
+	int* dfn = new int[G->n];
+	for (int i = 0; i < G->n; i++)
+		visited[i] = false;
+	for (int i = 0; i < G->n; i++)
+		if (!visited[i])
+			BFS_List(G, i, visited, dfn);
+	delete[]visited;
+	delete[]dfn;
+	cout << endl;
+}
+void BFS_List(AdjGraph* G, int i, bool visited[], int dfn[])
+{
+	 EdgeNode p;
+	 queue Q; 
+	 Q = Init_Queue();
+	std::cout<< G->vexlist[i].vertex; 
+	visited[i] = true;
+	Q = EnQueue(i, Q);
+	while (!Empty(Q))
+	{
+		i = Front(Q);
+		Q = DeQueue(Q);
+		p = G->vexlist[i].firstedge;
+		while (p)
+		{
+			if (!visited[p->adjvex])
+			{
+				cout << G->vexlist[p->adjvex].vertex;
+				visited[p->adjvex] = true;
+				EnQueue(p->adjvex, Q);
+			}
+			p = p->next;
+		}
+	}
+}
+
 
 
 
