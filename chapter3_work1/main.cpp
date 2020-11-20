@@ -1,7 +1,8 @@
 #include "Graph.h"
 
+
 int main()
 {
-	Experiment();
+	homework();
 	return 0;
 }

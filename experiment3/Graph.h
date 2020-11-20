@@ -8,6 +8,7 @@ typedef char VertexData;
 typedef int EdgeData;
 
 
+
 //定义邻接矩阵的存储结构
 typedef struct {
 	//顶点表
@@ -42,6 +43,7 @@ typedef struct
 	int e;	//顶点边数
 }AdjGraph;
 
+void Experiment();
 
 //输出选项提示
 void choice();
