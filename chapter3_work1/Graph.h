@@ -20,4 +20,9 @@ void homework();
 int Min_matrix(int distance[],bool visited[]);
 
 void Dijkstra(Graph_Adjacency_Matrix* G, int start, int end);
+
+
+void PrintPath(int start, int end, int path[][NumVertices]);
+void Floyd(Graph_Adjacency_Matrix* G, int start, int end);
+
 void Show(int n);

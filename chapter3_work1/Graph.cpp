@@ -54,7 +54,15 @@ void homework()
 			else
 				G->edge[i][j] = INT_MAX / 2;
 		}
+	cout << "以下为Dijkstra算法实现最短路径:" << endl;
 	Dijkstra(G,0,9);
+	cout << endl << endl << endl;
+	for (int i = 0; i < NumVertices; i++)
+		for (int j = 0; j < NumVertices; j++)
+			if (i == j)
+				G->edge[i][j] = 0;
+	cout << "以下为Floyd算法实现最短路径:" << endl;
+	Floyd(G, 0, 9);
 }
 
 int Min_matrix(int distance[],bool visited[],int i)
@@ -72,28 +80,28 @@ int Min_matrix(int distance[],bool visited[],int i)
 	}
 	return j;
 }
-int Min_matrix_test(int distance[], bool visited[])
-{
-	int j = -1;
-	for (int i = 0; i < NumVertices; i++)
-	{
-		if (!visited[i])
-		{
-			j = i;
-			break;
-		}
-	}
-
-	for (int i = 0; i < NumVertices; i++)
-	{
-		if (distance[i] < distance[j] && !visited[i])
-		{
-			j = i;
-		}
-	}
-
-	return j;
-}
+//int Min_matrix_test(int distance[], bool visited[])
+//{
+//	int j = -1;
+//	for (int i = 0; i < NumVertices; i++)
+//	{
+//		if (!visited[i])
+//		{
+//			j = i;
+//			break;
+//		}
+//	}
+//
+//	for (int i = 0; i < NumVertices; i++)
+//	{
+//		if (distance[i] < distance[j] && !visited[i])
+//		{
+//			j = i;
+//		}
+//	}
+//
+//	return j;
+//}
 
 void Dijkstra(Graph_Adjacency_Matrix* G, int start, int end)
 {
@@ -166,6 +174,43 @@ void Dijkstra(Graph_Adjacency_Matrix* G, int start, int end)
 		s.pop();
 	}
 }
+
+void PrintPath(int start, int end, int path[][NumVertices])
+{
+	if (path[start][end] == -1)
+		Show(end);
+	else
+	{
+		int mid = path[start][end];
+		PrintPath(start, mid, path);
+		PrintPath(mid, end, path);
+	}
+}
+void Floyd(Graph_Adjacency_Matrix* G, int start, int end)
+{
+	int path[NumVertices][NumVertices];
+	for (int i = 0; i < NumVertices; i++)
+		for (int j = 0; j < NumVertices; j++)
+			path[i][j] = -1;
+	for (int i = 0; i < NumVertices; i++)
+	{
+		for (int j = 0; j < NumVertices; j++)
+		{
+			for (int k = 0; k < NumVertices; k++)
+			{
+			
+				if (G->edge[j][k] > G->edge[j][i] + G->edge[i][k] /*&& j!=k && j!=i && i!=k*/)
+				{
+					path[j][k] = i;
+					G->edge[j][k] = G->edge[j][i] + G->edge[i][k];
+				}
+			}
+		}
+	}
+	Show(start);
+	PrintPath(start, end, path);
+}
+
 
 void Show(int n)
 {
