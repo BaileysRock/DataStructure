@@ -65,8 +65,8 @@ int main()
 	//if (t)
 	//	cout << t->data;
 
-
 	TREE t = Common_parent_optimize(tree);
+	int k = Search_node(tree, t);
 	cout << t->data;
 	//¶ş²æÊ÷µÄÉ¾³ı
 	Delete(tree);

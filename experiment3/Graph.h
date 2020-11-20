@@ -43,6 +43,15 @@ typedef struct
 	int e;	//顶点边数
 }AdjGraph;
 
+
+typedef struct edge 
+{
+	int bgn, end, wet;
+}Edge;
+
+
+
+
 void Experiment();
 
 //输出选项提示
@@ -117,3 +126,10 @@ Graph_Adjacency_Matrix* Input_from_file_Matrix(Graph_Adjacency_Matrix* G);
 AdjGraph* Input_from_file_List(AdjGraph* G);
 
 
+//最小生成树
+//Kruskal算法输出最小生成树
+void Sort_Graph(Edge edges[], int n);
+void Print_Kruskal(Graph_Adjacency_Matrix* G);
+int Find(int father[], int v);
+//Prim算法输出最小生成树
+//void Print_Prim(Graph_Adjacency_Matrix* G);

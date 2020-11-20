@@ -4,6 +4,19 @@
 
 void homework()
 {
+	int matrix[NumVertices][NumVertices] =
+	{
+		{0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 1, 1, 0, 0},
+		{0, 0, 0, 0, 0, 1, 1, 0, 1, 0},
+		{0, 0, 0, 0, 0, 0, 0, 1, 1, 0},
+		{0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
+		{1, 0, 1, 0, 0, 0, 0, 0, 0, 0},
+		{0, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+		{0, 1, 0, 1, 1, 0, 0, 0, 0, 0},
+		{0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+	};
 	//设人在河岸为1，人在对岸0
 	//设狼在河岸为1，人在对岸0
 	//设羊在河岸为1，人在对岸0
@@ -32,19 +45,7 @@ void homework()
 	//故原问题求解转化为从matrix[0][0]到matrix[9][9]的最短路劲
 
 	//对其状态转化后的邻接矩阵
-	int matrix[NumVertices][NumVertices] = 
-	{
-		{0, 0, 0, 0, 0, 1, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 1, 1, 0, 0},
-		{0, 0, 0, 0, 0, 1, 1, 0, 1, 0},
-		{0, 0, 0, 0, 0, 0, 0, 1, 1, 0},
-		{0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
-		{1, 0, 1, 0, 0, 0, 0, 0, 0, 0},
-		{0, 1, 1, 0, 0, 0, 0, 0, 0, 0},
-		{0, 1, 0, 1, 1, 0, 0, 0, 0, 0},
-		{0, 0, 1, 1, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-	};
+	//Matrix(matrix);
 	Graph_Adjacency_Matrix* G = new Graph;
 	for (int i = 0; i < NumVertices; i++)
 		for (int j = 0; j < NumVertices; j++)
@@ -65,6 +66,74 @@ void homework()
 	Floyd(G, 0, 9);
 }
 
+void make_matrix(int a[])
+{
+	int x, y, z, w;
+	for (int i = 0; i < 16; i++)
+	{
+		w = i % 2;
+		z = i / 2 % 2;
+		y = i / 2 / 2 % 2;
+		x = i / 2 / 2 / 2 % 2;
+		if (z == 1 && y == 1 || z == 0 && y == 0 || y == 1 && w == 1 || y == 0 && w == 0)
+		{
+			a[i] = 0;
+		}
+		else
+			a[i] = 1;
+	}
+}
+
+
+//生成矩阵
+void Matrix(int matrix[][NumVertices])
+{
+	int a[16];
+	int a1[16];
+	make_matrix(a);
+	make_matrix(a1);
+	int x1, y1, z1, w1;
+	int x2, y2, z2, w2;
+	int k;
+	for(int i=0;i<10;i++)
+		for (int j = 0; j < 10; j++)
+		{
+			for (k = 15; k >= 0; k--)
+			{
+				if (a[k] == 1)
+				{
+					w1 = i % 2;
+					z1 = i / 2 % 2;
+					y1 = i / 2 / 2 % 2;
+					x1 = i / 2 / 2 / 2 % 2;
+				}
+			}
+			for (int k = 15; k >= 0; k--)
+			{
+				if (a[k] == 1)
+				{
+					w2 = i % 2;
+					z2 = i / 2 % 2;
+					y2 = i / 2 / 2 % 2;
+					x2 = i / 2 / 2 / 2 % 2;
+				}
+				a1[k] = 0;
+			}
+			a[k] = 0;
+			if (x1 == 1 && x2 == 0)
+				matrix[i][j] = 1;
+			else
+				matrix[i][j] = 0;
+			
+		}
+
+	int m = 0;
+}
+
+
+
+//Dijkstra算法实现
+//求最小值所在位置
 int Min_matrix(int distance[],bool visited[],int i)
 {
 	int j = -1;
@@ -175,6 +244,9 @@ void Dijkstra(Graph_Adjacency_Matrix* G, int start, int end)
 	}
 }
 
+
+//Floyd算法实现
+//打印路径
 void PrintPath(int start, int end, int path[][NumVertices])
 {
 	if (path[start][end] == -1)
@@ -249,3 +321,4 @@ void Show(int n)
 
 	}
 }
+

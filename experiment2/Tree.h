@@ -68,12 +68,19 @@ TREE Common_parent_node(TREE tree);
 
 
 //优化后的算法
+//优化思路，先递归找到公共父节点
+//如果节点等于node1或node2，则返回该节点的值给父节点
+//当前节点的左右子树分别包括node1和node2节点,则为所求结点
+//找到父节点后，再寻找其所有父节点
+
 //求公共结点
-TREE Common_parent(TREE root, TREE p, TREE q);
+TREE Common_parent(TREE tree, TREE node1, TREE node2);
+int Search_node(TREE tree, TREE t);
 //输入两个结点
 //并判断结点是否在树中
 //若在树中
 //利用TREE Common_parent(TREE root, TREE p, TREE q);求公共结点
 TREE Common_parent_optimize(TREE root);
+void Common_all(TREE tree,TREE t);
 
 #endif

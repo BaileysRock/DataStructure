@@ -1,6 +1,6 @@
 #include"Stack.h"
 #include"Queue.h"
-
+#include"Tree.h"
 //遍历
 //递归
 //先序
@@ -45,7 +45,6 @@ void Preorder_Traversal_Recursive_leaf(TREE tree)
 		Preorder_Traversal_Recursive_leaf(tree->Rchild);
 	}
 }
-
 
 //非递归
 //先序
@@ -212,7 +211,6 @@ void Exchange(TREE tree)
 	}
 }
 
-
 TREE Copy_Tree(TREE tree)
 {
 	TREE t_copy = nullptr;
@@ -348,7 +346,6 @@ void Is_Complete_Binary_Tree(TREE tree)
 //在同一左子树或右子树
 //到(1)中的返回条件
 
-
 TREE Preorder_Traversal_Recursive_search(TREE tree, char ch)
 {
 	STACK s = Init_Stack();
@@ -469,30 +466,8 @@ TREE Common_parent_node(TREE tree)
 	}
 }
 
-
-
 //以下为查找公共双亲结点的一些改进
 //算法复杂度较低的求公共双亲结点算法
-
-//void Common_parent_node_optimize(TREE t1, TREE t2, TREE tree)
-//{
-//	STACK s = Init_Stack();
-//	TREE t = tree;
-//	while (t != nullptr || !Is_empty(s))
-//	{
-//		while (t != nullptr)
-//		{
-//			cout << t->data;
-//			Push_Stack(s, t);
-//			t = t->Lchild;
-//		}
-//		if (!Is_empty(s))
-//		{
-//			t = Pop_Stack(s);
-//			t = t->Rchild;
-//		}
-//	}
-//}
 TREE Common_parent_optimize(TREE tree)
 {
 	if (tree == nullptr)
@@ -519,28 +494,39 @@ TREE Common_parent_optimize(TREE tree)
 		}
 		TREE common;
 		common = Common_parent(t, node1, node2);
-
 		return common;
-
-
 	}
 }
 
+int Search_node(TREE tree, TREE t) 
+{
+	if (!tree)
+		return 0;
+	if (tree == t) 
+		return 1;
+	if (tree) 
+		if (Search_node(tree->Lchild, t) || Search_node(tree->Rchild, t))
+		{
+			cout << tree->data << " ";
+			return 1;
+		}
+	return 0;
+}
 
 TREE Common_parent(TREE tree, TREE node1, TREE node2) 
 {
 	if (tree == nullptr)
 		return nullptr;
-
 	if (tree == node1 || tree == node2)
 		return tree;
 	TREE left = Common_parent(tree->Lchild, node1, node2);
 	TREE right = Common_parent(tree->Rchild, node1, node2);
 	if (left && right)
 		return tree;
-	return left ? left : right; // 只有一个非空则返回该指针，两个都为空则返回空指针
-}
-TREE Common_parent(TREE tree, TREE node1, TREE node2)
-{
-
+	else if (left && !right)
+		return left;
+	else if (!left && right)
+		return right;
+	else if (!left && !right)
+		return nullptr;
 }

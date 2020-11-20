@@ -73,6 +73,11 @@ void Experiment()
 		case 12:
 			G_List = Input_from_file_List(G_List);
 			break;
+		case 13:
+			Print_Kruskal(G_Matrix);
+			cout << "请输入您的选项:" << endl;
+			break;
+
 		default:
 			cout << "输入有误!" << endl;
 			break;
@@ -97,6 +102,8 @@ void choice()
 	cout << "10.对图的广度优先搜索(邻接表)" << endl;
 	cout << "11.以文件形式输入图(邻接矩阵)" << endl;
 	cout << "12.以文件形式输入图(邻接表)" << endl;
+	cout << "13.用Kruskal算法输出最小生成树" << endl;
+//	cout << "14.用Prim算法输出最小生成树" << endl;
 	cout << "-1.退出" << endl;
 	cout << "请输入您的选项:" << endl;
 }
@@ -724,5 +731,118 @@ AdjGraph* Input_from_file_List(AdjGraph* G)
 		return G;
 	}
 }
+
+
+
+//最小生成树
+//Kruskal算法输出最小生成树
+void Sort_Graph(Edge edges[],int n)
+{
+	int i, k, m, q;
+	Edge temp;
+	for (i = 0; i < n - 1; i++)
+	{
+		q = i;
+		for (k = i + 1; k < n; k++)
+		{
+			if (edges[q].wet > edges[k].wet)
+			{
+				q = k;
+			}
+		}
+		if (edges[i].wet > edges[q].wet)
+		{
+			temp = edges[i];
+			edges[i] = edges[q];
+			edges[q] = temp;
+		}
+	}
+}
+
+int Find(int father[], int v)
+{
+	int f = v;
+	while (father[f] > 0)
+		f = father[f];
+	return (f);
+}
+//打印Kruskal算法遍历结果
+void Print_Kruskal(Graph_Adjacency_Matrix* G)
+{
+	Edge edges[30];
+	int* father = new int[G->n];
+	int count = 0;
+	int bnf, edf;
+	for (int i = 0; i < G->n; i++)
+		for (int j = i+1; j < G->n; j++)
+			if (G->edge[i][j] > 0)
+			{
+				edges[count].bgn = i;
+				edges[count].end = j;
+				edges[count].wet = G->edge[i][j];
+				count++;
+			}
+	Sort_Graph(edges,count);
+	for (int i = 0; i < G->n; i++)
+		father[i] = 0;
+	for (int i = 0; i < count; i++)
+	{
+		bnf = Find(father, edges[i].bgn);
+		edf = Find(father, edges[i].end);
+		if (bnf != edf) 
+		{
+			father[bnf] = edf;
+			cout << "(" << edges[i].bgn << ", " << edges[i].end << ")" << endl;
+		}
+	}
+
+}
+
+//Prim算法输出最小生成树
+//void Print_Prim(Graph_Adjacency_Matrix* G)
+//{
+//	int* LOWCOST = new int[G->n/2 + 1];
+//	int* CLOSSET = new int[G->n/2 + 1];
+//	int i, j, k; 
+//	int min;
+//	int n = G->n;
+//	for (int p = 0; p < G->n; p++)
+//	{
+//		for (int q = 0; q < G->n; q++)
+//		{
+//			if (G->edge[p][q] == 0)
+//				G->edge[p][q] = INT_MAX / 2;
+//		}
+//	}
+//
+//	
+//	for (i = 2; i <= n; i++) //初始化数组LOWCOST和数组CLOSSET
+//	{
+//		LOWCOST[i] = G->edge[0][i-1]; 
+//		CLOSSET[i] = 1;
+//	}
+//
+//
+//	for (i = 2; i <= n; i++)
+//	{
+//		min = LOWCOST[i];
+//		k = i;
+//		for (j = 2; j <= n; j++) //3.1在LOWCOST中选最短边,记CLOSSET中对应的顶点序号k
+//			if (LOWCOST[j] < min)
+//			{
+//				min = LOWCOST[j]; k = j;
+//			}
+//		cout << "(" << k-1 << "," << CLOSSET[k]-1 << ")" << endl;//3.2输出最小生成树的边信息
+//		LOWCOST[k] = INT_MAX/2; //3.3把顶点k加入最小生成树中
+//		for (j = 2; j <= n; j++) //3.4调整数组LOWCOST和CLOSSET
+//			if (G->edge[k-1][j-1] < LOWCOST[j] && LOWCOST[j] < INT_MAX/2)
+//			{
+//				LOWCOST[j] = G->edge[k-1][j-1]; 
+//				CLOSSET[j] = k;
+//			}
+//	}
+//
+//
+//}
 
 
