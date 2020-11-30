@@ -264,7 +264,7 @@ void CountSort(int n, int exp, Record L[])
 	}
 	for (int i = 0; i < n; i++)
 	{
-		if (Q[j].empty())
+		while (Q[j].empty())
 			j++;
 
 		L[i] = Q[j].front();
@@ -275,7 +275,7 @@ void CountSort(int n, int exp, Record L[])
 void RadixSort(int n, Record L[])
 {
 	int max = GetMax(n, L);
-	for (int exp = 1; exp < max; exp *= 10)
+	for (int exp = 1; exp <= max; exp *= 10)
 	{
 		CountSort(n, exp, L);
 	}
